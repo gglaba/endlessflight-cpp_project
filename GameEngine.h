@@ -5,6 +5,7 @@
 #include "Aircraft.h"
 #include "Opp.h"
 #include "Shoot.h"
+#include "Building.h"
 
 class GameEngine
 {
@@ -25,6 +26,10 @@ private:
 	std::vector<Opp*> drones;
 	Opp* drone;
 
+	float bspawn, bspawnmax;
+	std::vector<Building*> buildings;
+	Building* building;
+
 	sf::Font font;
 	sf::Text Pointstxt;
 	int score;
@@ -43,20 +48,25 @@ private:
 
 	void DronesInit();
 
+	void BuidlingsInit();
+
 
 public:
 	GameEngine();
 	~GameEngine();
 	void run();
 	void update();
-	void updateEvents();
-	void updateInput();
-	void updateShooting();
-	void updateDrones();
-	void updateInterface();
 	void render();
 	void renderBackground();
 	void renderInterface();
 	void Bordercollision();
+	void updateEvents();
+	void updateInput();
+	void updateShooting();
+	void updateBuildings();
+	void updateDrones();
+	void updateCombat();
+	void updateInterface();
+
 };
 
