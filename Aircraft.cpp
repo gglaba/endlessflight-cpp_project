@@ -1,4 +1,4 @@
-#include "Aircraft.h"
+﻿#include "Aircraft.h"
 #include <iostream>
 
 void Aircraft::Spriteinit()
@@ -13,7 +13,7 @@ void Aircraft::Spriteinit()
 
 }
 
-//�adowanie tekstury i skalowanie sprita gracza
+//ładowanie tekstury i skalowanie sprita gracza
 void Aircraft::Textureinit()
 {
 	if (this->texture.loadFromFile("textures/spritesheet.png") == false)
@@ -29,14 +29,25 @@ Aircraft::Aircraft()
 	this->variablesInit();
 	this->Textureinit();
 	this->Spriteinit();
+
+
+
 }
 
+Aircraft::~Aircraft()
+{
+}
 
 //rysowanie gracza na ekranie
 void Aircraft::render(sf::RenderTarget& target)
 {
-	if (this->shooting == true) //animacja strzalu zalezna od bool isshooting (true gdy gracz wcisnie s)
+	if (this->shooting == true)
 	{
+		this->currentframe.left += 443;
+		if (this->currentframe.left >= 2215)
+		{
+			this->currentframe.left = 0;
+		}
 		this->currentframe.left += 443;
 		if (this->currentframe.left >= 2215)
 		{
@@ -46,7 +57,7 @@ void Aircraft::render(sf::RenderTarget& target)
 		this->shooting = false;
 	}
 	else
-	{ //animacja ruchu gracza
+	{
 		this->currentframe.left += 443;
 		if (this->currentframe.left >= 886)
 		{
@@ -82,7 +93,7 @@ void Aircraft::setPos(const float x, const float y)
 
 const sf::Vector2f& Aircraft::getPos() const
 {
-	//zwracanie aktualnej pozycji gracza
+
 	return this->sprite.getPosition();
 }
 
@@ -91,8 +102,9 @@ void Aircraft::isShooting(bool state)
 	this->shooting = state;
 }
 
+//mechanika cooldownu
 bool Aircraft::Attack()
-{ //mechanika cooldownu strzelania
+{
 	if (this->cooldown >= this->cooldownMax)
 	{
 		this->cooldown = 0.f;
@@ -111,20 +123,23 @@ void Aircraft::updateCooldown()
 	if (this->cooldown < this->cooldownMax)
 	{
 		this->cooldown += 1.f;
-
+		std::cout << cooldown << std::endl;
 	}
+	
+
 }
 
 void Aircraft::variablesInit()
-{//inicjowanie statystyk gracza
+{
 	this->maxhp = 50;
 	this->velocity = 5.0f;
-	this->cooldownMax = 25.f;
+	this->cooldownMax = 20.f;
 	this->cooldown = 0.f;
 	this->hp = maxhp;
 
 }
 
+//gettery i settery statystyk
 const int& Aircraft::getHp() const
 {
 	return this->hp;
@@ -138,6 +153,10 @@ const int& Aircraft::getMaxhp() const
 void Aircraft::setHp(const int newhp)
 {
 	this->hp = newhp;
+	if (this->hp > this->maxhp)
+	{
+		this->hp = this->maxhp;
+	}
 }
 
 void Aircraft::loseHp(const int dmg)

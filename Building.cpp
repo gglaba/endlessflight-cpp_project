@@ -1,10 +1,10 @@
 #include "Building.h"
 #include <iostream>
 
-Building::Building(float posx, float posy)
+Building::Building(float posx, float posy, int frame)
 {
-	this->init();
-	this->sprite.setPosition(posx, posy);
+	this->init(frame);
+	this->sprite.setPosition(posx, 768 - this->sprite.getGlobalBounds().height );
 }
 
 Building::~Building()
@@ -14,37 +14,59 @@ Building::~Building()
 }
 
 
-void Building::init()
+void Building::init(int frame)
 {
-	if (this->texture.loadFromFile("textures/buildings.png") == false)
+	/*if (this->texture.loadFromFile("textures/buildings.png") == false)
 	{
 		std::cout << "nie zaladowano tekstury gracza" << std::endl;
-	}
+	}*/
 
-	int frame = rand() % 8 + 1;
-
-	switch (frame)
+	if (frame == 1)
 	{
-	case 1:
-		this->currentframe = sf::IntRect(0, 0, 183, 321);
-		std::cout << "wylosowalem 1!!!!" << std::endl;
-		
-	case 2:
-		this->currentframe = sf::IntRect(245, 0, 388, 203);
-	case 3:
-		this->currentframe = sf::IntRect(753, 0, 256, 315);
-	case 4:
-		this->currentframe = sf::IntRect(1057, 0, 228, 315);
-	case 5:
-		this->currentframe = sf::IntRect(1387, 0, 138, 315);
-	case 6:
-		this->currentframe = sf::IntRect(1614, 0, 188, 217);
-	case 7:
-		this->currentframe = sf::IntRect(1854, 0, 186, 455);
-	case 8:
-		this->currentframe = sf::IntRect(2080, 0, 277, 410);
+		if (this->texture.loadFromFile("textures/b1.png") == false)
+		{
+			std::cout << "nie zaladowano tekstury budynku" << std::endl;
+		}
+		this->currentframe = sf::IntRect(0, 0, 181, 317);
 	}
-	//this->currentframe = sf::IntRect(0, 0, 860, 880);
+
+	else if (frame == 2)
+	{
+		if (this->texture.loadFromFile("textures/b3.png") == false)
+		{
+			std::cout << "nie zaladowano tekstury budynku" << std::endl;
+		}
+		this->currentframe = sf::IntRect(0, 0, 112, 491);
+	}
+
+	else if (frame == 3)
+	{
+		if (this->texture.loadFromFile("textures/b4.png") == false)
+		{
+			std::cout << "nie zaladowano tekstury budynku" << std::endl;
+		}
+		this->currentframe = sf::IntRect(0, 0, 137, 396);
+	}
+	else if (frame == 4)
+	{
+		if (this->texture.loadFromFile("textures/b5.png") == false)
+		{
+			std::cout << "nie zaladowano tekstury budynku" << std::endl;
+		}
+		this->currentframe = sf::IntRect(0, 0, 222, 463);
+	}
+
+	else if (frame == 5)
+	{
+		if (this->texture.loadFromFile("textures/b6.png") == false)
+		{
+			std::cout << "nie zaladowano tekstury budynku" << std::endl;
+		}
+		this->currentframe = sf::IntRect(0, 0, 221, 317);
+	}
+	
+	//this->currentframe = sf::IntRect(0, 0, 64, 64);
+	
 	this->sprite.setTexture(this->texture);
 	this->sprite.setTextureRect(currentframe);
 	texture.setSmooth(true);
@@ -61,8 +83,6 @@ const sf::FloatRect Building::getBounds() const
 {
 	return this->sprite.getGlobalBounds();
 }
-
-
 
 void Building::render(sf::RenderTarget* target)
 {

@@ -47,7 +47,12 @@ void GameEngine::run()
 
 	while (this->window->isOpen())
 	{
-		this->update();
+		this->updateEvents();
+
+		if (this->player->getHp() > 0)
+		{
+			this->update();
+		}
 		this->render();
 	}
 }
@@ -77,6 +82,19 @@ void GameEngine::interfaceInit()
 	this->hpbarstat = this->hpbar;
 	this->hpbarstat.setFillColor(sf::Color(50, 50, 50, 100));
 
+	this->Overtext.setFont(this->font);
+	this->Overtext.setCharacterSize(92);
+	this->Overtext.setFillColor(sf::Color(0, 255, 0));
+	this->Overtext.setPosition((this->window->getSize().x / 2) - 260, (this->window->getSize().y / 2) - 200);
+	this->Overtext.setStyle(sf::Text::Bold);
+	this->Overtext.setString("KONIEC GRY!");
+
+	this->leaveinstr.setFont(this->font);
+	this->leaveinstr.setCharacterSize(48);
+	this->leaveinstr.setFillColor(sf::Color(0, 255, 0));
+	this->leaveinstr.setPosition(297, 583);
+	this->leaveinstr.setStyle(sf::Text::Bold);
+	this->leaveinstr.setString("Wcisnij ESC aby wyjsc");
 }
 
 //inicjowanie okna gry
@@ -115,13 +133,13 @@ void GameEngine::TexturesInit()
 void GameEngine::DronesInit()
 {
 	//inicjowanie zmiennych spawnowania sie dronow
-	this->tspawnmax = 30.f;
+	this->tspawnmax = 35.f;
 	this->tspawn = this->tspawnmax;
 }
 
 void GameEngine::BuidlingsInit()
 {
-	this->bspawnmax = 30.f;
+	this->bspawnmax = 60.f;
 	this->bspawn = this->bspawnmax;
 
 }
@@ -133,7 +151,6 @@ void GameEngine::BuidlingsInit()
 void GameEngine::update()
 {
 	//aktualizowanie poszczegolnych elementow gry
-	this->updateEvents();
 	this->updateInput();
 	this->player->update();
 	this->updateShooting();
@@ -219,17 +236,28 @@ void GameEngine::updateBuildings()
 	this->bspawn += 1.f;
 	if (this->bspawn >= this->bspawnmax)
 	{
-		this->buildings.push_back(new Building(1080.f,500.f));
+		this->buildings.push_back(new Building(1080.f,300,rand() % 5 + 1));
 		this->bspawn = 0.f;
 	}
 
+	int counter = 0;
 	for (auto* building : this->buildings)
 	{
 		building->update();
+
+		if (building->getBounds().left + building->getBounds().width < 0.f)
+		{
+			delete this->buildings.at(counter);
+			this->buildings.erase(this->buildings.begin() + counter);
+		}
+
+		else if (building->getBounds().intersects(this->player->getBounds()))
+		{
+			int dmg = 40;
+			this->player->loseHp(dmg);
+			this->player->setPos(0, 0);
+		}
 	}
-
-	//int counter = 0;
-
 }
 
 void GameEngine::updateDrones()
@@ -237,7 +265,7 @@ void GameEngine::updateDrones()
 	this->tspawn += 1.f;
 	if (this->tspawn >= this->tspawnmax)
 	{
-		this->drones.push_back(new Opp(1080, rand() % 400));
+		this->drones.push_back(new Opp(1080, rand() % 300));
 		this->tspawn = 0.f;
 	}
 
@@ -280,6 +308,8 @@ void GameEngine::updateCombat()
 		{
 			if (this->drones[i]->getBounds().intersects(this->bullets[j]->getBounds()))
 			{
+				this->player->setHp(this->player->getHp() + (this->drones[i]->getPoints())/2);
+
 				this->score += this->drones[i]->getPoints();
 
 				delete this->drones[i];
@@ -303,6 +333,21 @@ void GameEngine::updateInterface()
 
 	float percentage = static_cast<float>(this->player->getHp()) / this->player->getMaxhp();
 	this->hpbar.setSize(sf::Vector2f(200 * percentage, this->hpbar.getSize().y));
+}
+
+void GameEngine::overscreen()
+{
+	this->window->clear();
+	if (this->backgroundTexture.loadFromFile("textures/background_dead.png") == false)
+	{
+		std::cout << "nie załadaowano tekstury tła \n";
+	}
+	this->renderBackground();
+	this->window->draw(this->Overtext);
+	this->Pointstxt.setPosition(352, 383);
+	this->Pointstxt.setCharacterSize(72);
+	this->window->draw(this->Pointstxt);
+	this->window->draw(this->leaveinstr);
 }
 
 
@@ -334,6 +379,11 @@ void GameEngine::render()
 	}
 
 	this->renderInterface();
+
+	if (this->player->getHp() <= 0)
+	{
+		this->overscreen();
+	}
 
 	this->window->display();
 

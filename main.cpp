@@ -4,7 +4,7 @@
 
 int main()
 {
-	srand(static_cast<unsigned int>(time(0))); //seed dla random
+	srand(static_cast<unsigned int>(time(0)));
 
 	GameEngine game;
 	

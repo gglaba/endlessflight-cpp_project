@@ -8,6 +8,7 @@ class Aircraft
 {
 public:
 	Aircraft();
+	~Aircraft();
 
 	void render(sf::RenderTarget& target);
 

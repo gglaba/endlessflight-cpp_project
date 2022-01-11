@@ -19,6 +19,6 @@ private:
 	sf::Texture texture;
 	sf::IntRect currentframe;
 	int hp,dmg,points;
-	float posx, posy;
+	float posx, posy,vel;
 };
 

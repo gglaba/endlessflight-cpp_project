@@ -4,7 +4,7 @@
 class Building
 {
 public:
-	Building(float posx, float posy);
+	Building(float posx, float posy, int frame);
 	~Building();
 	void update();
 	void render(sf::RenderTarget* target);
@@ -12,7 +12,7 @@ public:
 
 private:
 
-	void init();
+	void init(int frame);
 	sf::Sprite sprite;
 	sf::Texture texture;
 	sf::IntRect currentframe;

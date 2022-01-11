@@ -10,6 +10,10 @@
 class GameEngine
 {
 private:
+
+	sf::IntRect startButton;
+
+
 	sf::RenderWindow* window;
 	Aircraft* player;
 	sf::Texture backgroundTexture;
@@ -32,6 +36,10 @@ private:
 
 	sf::Font font;
 	sf::Text Pointstxt;
+
+	sf::Text Overtext;
+	sf::Text leaveinstr;
+
 	int score;
 
 	void statsInit();
@@ -67,6 +75,6 @@ public:
 	void updateDrones();
 	void updateCombat();
 	void updateInterface();
+	void overscreen();
 
 };
-

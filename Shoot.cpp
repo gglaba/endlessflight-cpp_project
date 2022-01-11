@@ -1,7 +1,9 @@
 #include "Shoot.h"
 
+
 Shoot::Shoot(sf::Texture* texture,float px,float py, float dx, float dy, float vel)
-{//tworzenie pociskow
+{
+	//tworzenie pociskow
 	this->texture = texture;
 	this->shape.setTexture(*texture);
 	this->shape.scale(.2f, .2f);
@@ -12,14 +14,19 @@ Shoot::Shoot(sf::Texture* texture,float px,float py, float dx, float dy, float v
 
 }
 
+Shoot::~Shoot()
+{
+}
 
 void Shoot::update()
-{//aktualizowanie pociskow
+{
+	//aktualizowanie pociskow
 	this->shape.move(this->vel * this->dir);
 }
 
 void Shoot::render(sf::RenderTarget* target)
-{//rysowanie pociskow
+{
+	//rysowanie pociskow
 	target->draw(this->shape);
 }
 

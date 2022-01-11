@@ -1,6 +1,8 @@
 #include "Opp.h"
 #include <iostream>
-Opp::Opp( float posx, float posy)
+
+
+Opp::Opp(float posx, float posy)
 { //inicjuje drona na konkretnej pozycji na ekranie
 	this->init();
 	this->sprite.setPosition(posx, posy);
@@ -21,16 +23,18 @@ void Opp::init()
 	this->sprite.setTexture(this->texture);
 	this->sprite.setTextureRect(currentframe);
 	texture.setSmooth(true);
-	
-	
-	this->hp = rand()% 10 + 1;
-	this->dmg = 1;
+
+
+	this->hp = rand() % 10 + 4;
+	this->dmg = (this->hp)/2;
 	this->points = this->hp;
+	this->vel = static_cast<float>(this->hp) * (-1);
+	this->sprite.setScale(static_cast<float>(this->hp)/9, static_cast<float>(this->hp)/9);
 }
 
 void Opp::update()
 { //aktualizowanie stanu drona
-	this->sprite.move(-5.f, 0.f);
+	this->sprite.move(vel, 0.f);
 }
 
 const sf::FloatRect Opp::getBounds() const
@@ -49,7 +53,7 @@ const int& Opp::getdmg() const
 }
 
 
-void Opp::render(sf::RenderTarget * target)
+void Opp::render(sf::RenderTarget* target)
 {//rysowanie drona
 	target->draw(this->sprite);
 }
