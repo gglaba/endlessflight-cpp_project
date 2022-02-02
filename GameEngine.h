@@ -10,10 +10,6 @@
 class GameEngine
 {
 private:
-
-	sf::IntRect startButton;
-
-
 	sf::RenderWindow* window;
 	Aircraft* player;
 	sf::Texture backgroundTexture;
@@ -40,7 +36,22 @@ private:
 	sf::Text Overtext;
 	sf::Text leaveinstr;
 
-	int score;
+	sf::Text mtitle;
+	sf::Text mplay;
+	sf::Text mexit;
+	sf::Text minstr;
+
+	sf::Color color;
+
+
+	bool m_isPlaySelected;
+	bool m_isExitSelected;
+	bool m_isPlayPressed;
+	bool m_isExitPressed;
+
+	bool isPlayOn;
+
+	float score;
 
 	void statsInit();
 
@@ -58,6 +69,8 @@ private:
 
 	void BuidlingsInit();
 
+	void MenuInit();
+
 
 public:
 	GameEngine();
@@ -67,6 +80,7 @@ public:
 	void render();
 	void renderBackground();
 	void renderInterface();
+	void renderMenu();
 	void Bordercollision();
 	void updateEvents();
 	void updateInput();
@@ -75,6 +89,7 @@ public:
 	void updateDrones();
 	void updateCombat();
 	void updateInterface();
+	void updateMenu();
 	void overscreen();
-
+	
 };

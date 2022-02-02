@@ -3,7 +3,7 @@
 
 void Aircraft::Spriteinit()
 {
-
+	//ustawianie aktualnej klatki sprite'a gracza i skalowanie
 	this->currentframe = sf::IntRect(0, 0, 445, 312);
 	this->sprite.setTexture(this->texture);
 	this->sprite.setTextureRect(currentframe);
@@ -25,13 +25,10 @@ void Aircraft::Textureinit()
 
 
 Aircraft::Aircraft()
-{
+{ //inicjacja gracza
 	this->variablesInit();
 	this->Textureinit();
 	this->Spriteinit();
-
-
-
 }
 
 Aircraft::~Aircraft()
@@ -41,10 +38,10 @@ Aircraft::~Aircraft()
 //rysowanie gracza na ekranie
 void Aircraft::render(sf::RenderTarget& target)
 {
-	if (this->shooting == true)
+	if (this->shooting == true) //jezeli gracz strzela zapetlane sa klatki z animacja strzelania
 	{
-		this->currentframe.left += 443;
-		if (this->currentframe.left >= 2215)
+		this->currentframe.left += 886;
+		if (this->currentframe.left >= 3544)
 		{
 			this->currentframe.left = 0;
 		}
@@ -58,7 +55,7 @@ void Aircraft::render(sf::RenderTarget& target)
 	}
 	else
 	{
-		this->currentframe.left += 443;
+		this->currentframe.left += 443; //zapetlanie klatek z animacja lotu
 		if (this->currentframe.left >= 886)
 		{
 			this->currentframe.left = 0;
@@ -130,7 +127,7 @@ void Aircraft::updateCooldown()
 }
 
 void Aircraft::variablesInit()
-{
+{ //inicjowanie statystyk gracza
 	this->maxhp = 50;
 	this->velocity = 5.0f;
 	this->cooldownMax = 20.f;

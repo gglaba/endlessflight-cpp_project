@@ -6,7 +6,9 @@
 class Shoot
 {
 public:
-	Shoot(sf::Texture* texture, float px, float py, float dx, float dy, float vel);
+	Shoot(sf::Texture* texture,float px,float py, float dx,float dy,float vel);
+	~Shoot();
+
 	void update();
 	void render(sf::RenderTarget* target);
 	const sf::FloatRect getBounds() const;
