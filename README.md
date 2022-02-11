@@ -1,1 +1,1 @@
-# gra na przedmiot projekt C++ w semestrze zimowym 2021/22
+# simple endless runner type game for my c++ course in uni, made in C++ using SFML library.
